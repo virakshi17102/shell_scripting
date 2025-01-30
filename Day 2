@@ -1,0 +1,528 @@
+Working with a vi editor
+
+1 [admin@hostname01 ~]$ vi example
+
+A network is a group of computers that can communicate with each other, share resources such as hard disks and printers, and access remote hosts or other networks. Novell Netware is a computer network operating system designed to connect, manage, and maintain a network and its services. some of the network services are Novell Netware directory services (NDS), file system, printing and security.
+Managing NDS is a fundamental administrator role because NDS provides a single point for accessing and managing most network resources
+
+working with shell
+
+1 [admin@hostname01 ~]$ echo "welcome to  shell"
+
+2 [admin@hostname01 ~]$ cat errorlog.txt
+cat: errorlog.txt: No such file or directory
+3 [admin@hostname01 ~]$ history
+    1  ifconfig
+    2  exit
+    3  passwd root
+    4  cd /root/
+    5  exit
+    6  hostname host01
+    7  su - root
+    8  yum update -y
+    9  su root
+   10  su - 
+   11  cd
+   12  poweroff
+   13  ifconfig
+   14  exit
+   15  yum -y update
+   16  su - root
+   17  init 0
+   18  su - root
+   19  vi example.txt
+   20  vi example
+   21  :%s/Netware/Novell Netware/g
+   22  vi
+   23  vi example
+   24  history
+   25  vi example
+   26  echo "welcome to working with shell"
+   27  cat errorlog.txt
+   28  history
+
+4 [admin@hostname01 ~]$ history | grep ls
+   29  histroy | grep ls
+   30  history | grep ls
+5 [admin@hostname01 ~]$ !!
+   history | grep ls
+   29  histroy | grep ls
+   30  history | grep ls
+   
+6 [admin@hostname01 ~]$ !3
+passwd root
+passwd: Only root can specify a user name.
+
+7 [admin@hostname01 ~]$ cat /etc/shells
+/bin/sh
+/bin/bash
+/usr/bin/sh
+/usr/bin/bash
+
+understanding Access Permissions
+
+7.1 [admin@hostname01 ~]$ touch demofile
+
+1 [admin@hostname01 ~]$ chmod u-r demofile
+[admin@hostname01 ~]$ cat demofile
+cat: demofile: Permission denied
+
+2 [admin@hostname01 ~]$ chmod u-w demofile
+[admin@hostname01 ~]$ vi demofile
+
+3 [admin@hostname01 ~]$ chmod u+rw demofile
+
+4 [admin@hostname01 ~]$ chmod go-wx demofile
+
+5 [admin@hostname01 ~]$ chmod g+w demofile
+
+6 [admin@hostname01 ~]$ chmod a+r demofile
+
+7 [admin@hostname01 ~]$ chmod o-r demofile
+
+8 [admin@hostname01 ~]$ chmod u+x chap1
+chmod: cannot access 'chap1': No such file or directory
+
+9 [admin@hostname01 ~]$ chmod a+x add.c
+chmod: cannot access 'add.c': No such file or directory
+
+10 [admin@hostname01 ~]$ chmod u-x,g+r,o+r aa.c
+chmod: cannot access 'aa.c': No such file or directory
+
+11 [admin@hostname01 ~]$ chmod u+x a.c kk.c nato myfile
+chmod: cannot access 'a.c': No such file or directory
+chmod: cannot access 'kk.c': No such file or directory
+chmod: cannot access 'nato': No such file or directory
+chmod: cannot access 'myfile': No such file or directory
+
+7.2 [admin@hostname01 ~]$ mkdir demo
+[admin@hostname01 ~]$ cp /etc/passwd demo/
+[admin@hostname01 ~]$ ls demo
+passwd
+
+1 [admin@hostname01 ~]$ cat demo
+cat: demo: Is a directory
+2 [admin@hostname01 ~]$ chmod -r demo
+[admin@hostname01 ~]$ ls demo
+ls: cannot open directory 'demo': Permission denied
+
+3 [admin@hostname01 ~]$ chmod -w demo
+[admin@hostname01 ~]$ cp /etc/profile demo/
+cp: cannot create regular file 'demo/profile': Permission denied
+
+4 [admin@hostname01 ~]$ rm demo/passwd
+rm: cannot remove 'demo/passwd': Permission denied
+5 [admin@hostname01 ~]$ chmod -x demo
+[admin@hostname01 ~]$ cd demo
+bash: cd: demo: Permission denied
+
+Using Process - related commands
+
+1 [admin@hostname01 ~]$ ps -u $USER
+    PID TTY          TIME CMD
+   2222 ?        00:00:01 systemd
+   2224 ?        00:00:00 (sd-pam)
+   2240 ?        00:00:00 gnome-keyring-d
+   2244 tty2     00:00:00 gdm-wayland-ses
+   2248 ?        00:00:00 dbus-broker-lau
+   2250 ?        00:00:01 dbus-broker
+   2253 tty2     00:00:00 gnome-session-b
+   2288 ?        00:00:00 gnome-session-c
+   2289 ?        00:00:00 gnome-session-b
+   2307 ?        00:05:38 gnome-shell
+   2323 ?        00:00:00 gvfsd
+   2328 ?        00:00:00 gvfsd-fuse
+   2336 ?        00:00:00 at-spi-bus-laun
+   2341 ?        00:00:00 dbus-broker-lau
+   2342 ?        00:00:00 dbus-broker
+   2354 ?        00:00:00 xdg-permission-
+   2358 ?        00:00:00 gnome-shell-cal
+   2367 ?        00:00:01 pipewire
+   2371 ?        00:00:02 wireplumber
+   2373 ?        00:00:01 pipewire-pulse
+   2389 ?        00:00:00 dconf-service
+   2399 ?        00:00:00 gvfs-udisks2-vo
+   2416 ?        00:00:00 evolution-sourc
+   2420 ?        00:00:00 gvfs-mtp-volume
+   2429 ?        00:00:00 gvfs-gphoto2-vo
+   2434 ?        00:00:00 gvfs-goa-volume
+   2435 ?        00:00:00 goa-daemon
+   2440 ?        00:00:00 evolution-calen
+   2448 ?        00:00:10 goa-identity-se
+   2468 ?        00:00:00 evolution-addre
+   2487 ?        00:00:00 gjs
+   2489 ?        00:00:00 at-spi2-registr
+   2496 ?        00:00:00 gsd-a11y-settin
+   2498 ?        00:00:00 gsd-color
+   2501 ?        00:00:00 gsd-datetime
+   2502 ?        00:00:02 gsd-housekeepin
+   2508 ?        00:00:00 gsd-keyboard
+   2510 ?        00:00:00 gsd-media-keys
+   2514 ?        00:00:00 gsd-power
+   2519 ?        00:00:00 gsd-print-notif
+   2521 ?        00:00:00 gsd-rfkill
+   2525 ?        00:00:00 gsd-disk-utilit
+   2533 ?        00:00:00 gsd-screensaver
+   2534 ?        00:00:00 evolution-alarm
+   2535 ?        00:00:00 gsd-sharing
+   2539 ?        00:00:06 gsd-smartcard
+   2541 ?        00:00:00 gsd-sound
+   2550 ?        00:00:00 gsd-usb-protect
+   2556 ?        00:00:00 gsd-wacom
+   2580 ?        00:00:06 gnome-software
+   2597 ?        00:01:18 vmtoolsd
+   2625 ?        00:00:00 gjs
+   2635 ?        00:00:00 gsd-printer
+   2711 ?        00:00:00 Xwayland
+   2757 ?        00:00:00 gvfsd-trash
+   2808 ?        00:00:02 xdg-desktop-por
+   2809 ?        00:00:29 ibus-daemon
+   2811 ?        00:00:01 gsd-xsettings
+   2817 ?        00:00:00 xdg-document-po
+   2824 ?        00:00:00 ibus-dconf
+   2825 ?        00:00:12 ibus-extension-
+   2832 ?        00:00:00 ibus-x11
+   2835 ?        00:00:00 ibus-portal
+   2836 ?        00:00:01 xdg-desktop-por
+   2851 ?        00:00:10 ibus-engine-sim
+   2868 ?        00:00:01 xdg-desktop-por
+   2967 ?        00:00:42 gnome-terminal-
+   2985 pts/0    00:00:00 bash
+   3067 ?        00:00:00 gvfsd-metadata
+   4111 pts/1    00:00:00 bash
+   5155 pts/2    00:00:00 bash
+   6951 pts/2    00:00:00 bash
+   6980 pts/3    00:00:00 bash
+   7311 pts/3    00:00:00 ps
+   
+2 [admin@hostname01 ~]$ ps -e
+    PID TTY          TIME CMD
+      1 ?        00:00:04 systemd
+      2 ?        00:00:00 kthreadd
+      3 ?        00:00:00 pool_workqueue_
+      4 ?        00:00:00 kworker/R-rcu_g
+      5 ?        00:00:00 kworker/R-sync_
+      6 ?        00:00:00 kworker/R-slub_
+      7 ?        00:00:00 kworker/R-netns
+      9 ?        00:00:00 kworker/0:0H-events_highpri
+     10 ?        00:00:00 kworker/u512:0-events_unbound
+     11 ?        00:00:00 kworker/R-mm_pe
+     12 ?        00:00:00 kworker/u512:1-netns
+     13 ?        00:00:00 rcu_tasks_kthre
+     14 ?        00:00:00 rcu_tasks_rude_
+     15 ?        00:00:00 rcu_tasks_trace
+     16 ?        00:00:00 ksoftirqd/0
+     17 ?        00:00:03 rcu_preempt
+     18 ?        00:00:00 rcu_exp_par_gp_
+     19 ?        00:00:00 rcu_exp_gp_kthr
+     20 ?        00:00:00 migration/0
+     21 ?        00:00:00 idle_inject/0
+     23 ?        00:00:00 cpuhp/0
+     24 ?        00:00:00 cpuhp/1
+     25 ?        00:00:00 idle_inject/1
+     26 ?        00:00:02 migration/1
+     27 ?        00:00:00 ksoftirqd/1
+     29 ?        00:00:00 kworker/1:0H-events_highpri
+     30 ?        00:00:00 cpuhp/2
+     31 ?        00:00:00 idle_inject/2
+     32 ?        00:00:02 migration/2
+     33 ?        00:00:00 ksoftirqd/2
+     36 ?        00:00:00 cpuhp/3
+     37 ?        00:00:00 idle_inject/3
+     38 ?        00:00:02 migration/3
+     39 ?        00:00:00 ksoftirqd/3
+     43 ?        00:00:07 kworker/u514:0-events_unbound
+     49 ?        00:00:00 kdevtmpfs
+     50 ?        00:00:00 kworker/R-inet_
+     51 ?        00:00:00 kauditd
+     52 ?        00:00:00 khungtaskd
+     53 ?        00:00:00 oom_reaper
+     54 ?        00:00:00 kworker/R-write
+     55 ?        00:00:00 kcompactd0
+     56 ?        00:00:00 ksmd
+     57 ?        00:00:04 khugepaged
+     58 ?        00:00:00 kworker/R-crypt
+     59 ?        00:00:00 kworker/R-kinte
+     60 ?        00:00:00 kworker/R-kbloc
+     61 ?        00:00:00 irq/9-acpi
+     64 ?        00:00:00 kworker/R-tpm_d
+     65 ?        00:00:00 kworker/R-md
+     66 ?        00:00:00 kworker/R-md_bi
+     67 ?        00:00:00 kworker/R-edac-
+     68 ?        00:00:00 watchdogd
+     72 ?        00:00:00 kswapd0
+     77 ?        00:00:00 kworker/R-kthro
+     81 ?        00:00:00 irq/24-pciehp
+     82 ?        00:00:00 irq/25-pciehp
+     83 ?        00:00:00 irq/26-pciehp
+     84 ?        00:00:00 irq/27-pciehp
+     85 ?        00:00:00 irq/28-pciehp
+     86 ?        00:00:00 irq/29-pciehp
+     87 ?        00:00:00 irq/30-pciehp
+     88 ?        00:00:00 irq/31-pciehp
+     89 ?        00:00:00 irq/32-pciehp
+     90 ?        00:00:00 irq/33-pciehp
+     91 ?        00:00:00 irq/34-pciehp
+     92 ?        00:00:00 irq/35-pciehp
+     93 ?        00:00:00 irq/36-pciehp
+     94 ?        00:00:00 irq/37-pciehp
+     95 ?        00:00:00 irq/38-pciehp
+     96 ?        00:00:00 irq/39-pciehp
+     97 ?        00:00:00 irq/40-pciehp
+     98 ?        00:00:00 irq/41-pciehp
+     99 ?        00:00:00 irq/42-pciehp
+    100 ?        00:00:00 irq/43-pciehp
+    101 ?        00:00:00 irq/44-pciehp
+    102 ?        00:00:00 irq/45-pciehp
+    103 ?        00:00:00 irq/46-pciehp
+    104 ?        00:00:00 irq/47-pciehp
+    105 ?        00:00:00 irq/48-pciehp
+    106 ?        00:00:00 irq/49-pciehp
+    107 ?        00:00:00 irq/50-pciehp
+    108 ?        00:00:00 irq/51-pciehp
+    109 ?        00:00:00 irq/52-pciehp
+    110 ?        00:00:00 irq/53-pciehp
+    111 ?        00:00:00 irq/54-pciehp
+    112 ?        00:00:00 irq/55-pciehp
+    113 ?        00:00:00 kworker/R-acpi_
+    114 ?        00:00:00 kworker/R-kmpat
+    115 ?        00:00:00 kworker/R-kalua
+    117 ?        00:00:00 kworker/R-mld
+    119 ?        00:00:00 kworker/R-ipv6_
+    128 ?        00:00:00 kworker/R-kstrp
+    132 ?        00:00:00 kworker/u515:0
+    280 ?        00:00:00 kworker/0:1H-xfs-log/dm-2
+    283 ?        00:00:00 kworker/1:1H-xfs-log/dm-0
+    453 ?        00:00:00 kworker/R-mpt_p
+    454 ?        00:00:00 kworker/R-mpt/0
+    462 ?        00:00:00 kworker/R-ata_s
+    466 ?        00:00:00 scsi_eh_0
+    467 ?        00:00:00 kworker/R-scsi_
+    469 ?        00:00:00 scsi_eh_1
+    470 ?        00:00:00 kworker/R-scsi_
+    472 ?        00:00:00 scsi_eh_2
+    473 ?        00:00:00 kworker/R-scsi_
+    504 ?        00:00:00 irq/16-vmwgfx
+    505 ?        00:00:00 kworker/R-ttm
+    522 ?        00:00:00 kworker/3:2H-kblockd
+    555 ?        00:00:00 kworker/R-kdmfl
+    562 ?        00:00:00 kworker/R-kdmfl
+    581 ?        00:00:00 kworker/R-xfsal
+    582 ?        00:00:00 kworker/R-xfs_m
+    583 ?        00:00:00 kworker/R-xfs-b
+    584 ?        00:00:00 kworker/R-xfs-c
+    585 ?        00:00:00 kworker/R-xfs-r
+    586 ?        00:00:00 kworker/R-xfs-b
+    587 ?        00:00:00 kworker/R-xfs-i
+    588 ?        00:00:00 kworker/R-xfs-l
+    589 ?        00:00:00 kworker/R-xfs-c
+    590 ?        00:00:00 xfsaild/dm-0
+    661 ?        00:00:01 systemd-journal
+    677 ?        00:00:00 vmware-vmblock-
+    680 ?        00:00:01 systemd-udevd
+    743 ?        00:00:00 kworker/R-kdmfl
+    744 ?        00:00:02 irq/56-vmw_vmci
+    745 ?        00:00:00 irq/57-vmw_vmci
+    746 ?        00:00:00 irq/58-vmw_vmci
+    771 ?        00:00:00 kworker/R-xfs-b
+    772 ?        00:00:00 kworker/R-xfs-c
+    773 ?        00:00:00 kworker/R-xfs-r
+    774 ?        00:00:00 kworker/R-xfs-b
+    775 ?        00:00:00 kworker/R-xfs-i
+    776 ?        00:00:00 kworker/R-xfs-b
+    777 ?        00:00:00 kworker/R-xfs-c
+    778 ?        00:00:00 kworker/R-xfs-r
+    779 ?        00:00:00 kworker/R-xfs-b
+    780 ?        00:00:00 kworker/R-xfs-i
+    781 ?        00:00:00 kworker/R-xfs-l
+    782 ?        00:00:00 kworker/R-xfs-c
+    783 ?        00:00:00 xfsaild/sda1
+    784 ?        00:00:00 kworker/R-xfs-l
+    785 ?        00:00:00 kworker/R-xfs-c
+    786 ?        00:00:00 xfsaild/dm-2
+    791 ?        00:00:00 auditd
+    793 ?        00:00:00 sedispatch
+    819 ?        00:00:00 dbus-broker-lau
+    820 ?        00:00:01 dbus-broker
+    821 ?        00:00:00 avahi-daemon
+    824 ?        00:00:05 irqbalance
+    825 ?        00:00:00 lsmd
+    826 ?        00:00:00 mcelog
+    827 ?        00:00:01 polkitd
+    828 ?        00:00:01 rtkit-daemon
+    830 ?        00:00:00 accounts-daemon
+    831 ?        00:00:00 switcheroo-cont
+    832 ?        00:00:00 systemd-logind
+    835 ?        00:00:00 udisksd
+    837 ?        00:00:00 upowerd
+    838 ?        00:00:00 VGAuthService
+    839 ?        00:01:36 vmtoolsd
+    850 ?        00:00:00 chronyd
+    851 ?        00:00:00 avahi-daemon
+    893 ?        00:00:00 ModemManager
+    896 ?        00:00:01 firewalld
+   1026 ?        00:00:02 NetworkManager
+   1046 ?        00:00:00 cupsd
+   1053 ?        00:00:00 sshd
+   1335 ?        00:00:05 rsyslogd
+   1338 ?        00:00:00 atd
+   1344 ?        00:00:00 crond
+   1351 ?        00:00:00 gdm
+   1871 ?        00:00:00 power-profiles-
+   1883 ?        00:00:00 geoclue
+   1894 ?        00:00:00 wpa_supplicant
+   2152 ?        00:00:00 colord
+   2171 ?        00:00:00 kworker/u517:1-ttm
+   2208 ?        00:00:00 kworker/2:2H-kblockd
+   2210 ?        00:00:00 gdm-session-wor
+   2222 ?        00:00:01 systemd
+   2224 ?        00:00:00 (sd-pam)
+   2240 ?        00:00:00 gnome-keyring-d
+   2244 tty2     00:00:00 gdm-wayland-ses
+   2248 ?        00:00:00 dbus-broker-lau
+   2250 ?        00:00:01 dbus-broker
+   2253 tty2     00:00:00 gnome-session-b
+   2288 ?        00:00:00 gnome-session-c
+   2289 ?        00:00:00 gnome-session-b
+   2307 ?        00:05:41 gnome-shell
+   2323 ?        00:00:00 gvfsd
+   2328 ?        00:00:00 gvfsd-fuse
+   2336 ?        00:00:00 at-spi-bus-laun
+   2341 ?        00:00:00 dbus-broker-lau
+   2342 ?        00:00:00 dbus-broker
+   2354 ?        00:00:00 xdg-permission-
+   2358 ?        00:00:00 gnome-shell-cal
+   2367 ?        00:00:01 pipewire
+   2371 ?        00:00:02 wireplumber
+   2373 ?        00:00:01 pipewire-pulse
+   2389 ?        00:00:00 dconf-service
+   2399 ?        00:00:00 gvfs-udisks2-vo
+   2416 ?        00:00:00 evolution-sourc
+   2420 ?        00:00:00 gvfs-mtp-volume
+   2429 ?        00:00:00 gvfs-gphoto2-vo
+   2434 ?        00:00:00 gvfs-goa-volume
+   2435 ?        00:00:00 goa-daemon
+   2440 ?        00:00:00 evolution-calen
+   2448 ?        00:00:10 goa-identity-se
+   2468 ?        00:00:00 evolution-addre
+   2475 ?        00:00:15 sssd_kcm
+   2487 ?        00:00:00 gjs
+   2489 ?        00:00:00 at-spi2-registr
+   2496 ?        00:00:00 gsd-a11y-settin
+   2498 ?        00:00:00 gsd-color
+   2501 ?        00:00:00 gsd-datetime
+   2502 ?        00:00:02 gsd-housekeepin
+   2508 ?        00:00:00 gsd-keyboard
+   2510 ?        00:00:00 gsd-media-keys
+   2514 ?        00:00:00 gsd-power
+   2519 ?        00:00:00 gsd-print-notif
+   2521 ?        00:00:00 gsd-rfkill
+   2525 ?        00:00:00 gsd-disk-utilit
+   2533 ?        00:00:00 gsd-screensaver
+   2534 ?        00:00:00 evolution-alarm
+   2535 ?        00:00:00 gsd-sharing
+   2539 ?        00:00:06 gsd-smartcard
+   2541 ?        00:00:00 gsd-sound
+   2550 ?        00:00:00 gsd-usb-protect
+   2556 ?        00:00:00 gsd-wacom
+   2580 ?        00:00:06 gnome-software
+   2597 ?        00:01:18 vmtoolsd
+   2625 ?        00:00:00 gjs
+   2635 ?        00:00:00 gsd-printer
+   2711 ?        00:00:00 Xwayland
+   2757 ?        00:00:00 gvfsd-trash
+   2808 ?        00:00:02 xdg-desktop-por
+   2809 ?        00:00:29 ibus-daemon
+   2811 ?        00:00:01 gsd-xsettings
+   2817 ?        00:00:00 xdg-document-po
+   2823 ?        00:00:00 fusermount
+   2824 ?        00:00:00 ibus-dconf
+   2825 ?        00:00:12 ibus-extension-
+   2832 ?        00:00:00 ibus-x11
+   2835 ?        00:00:00 ibus-portal
+   2836 ?        00:00:01 xdg-desktop-por
+   2851 ?        00:00:10 ibus-engine-sim
+   2868 ?        00:00:01 xdg-desktop-por
+   2900 ?        00:00:03 fwupd
+   2967 ?        00:00:42 gnome-terminal-
+   2985 pts/0    00:00:00 bash
+   3067 ?        00:00:00 gvfsd-metadata
+   3565 pts/0    00:00:00 su
+   3576 pts/0    00:00:00 bash
+   3675 ?        00:00:00 kworker/u516:0-ttm
+   4111 pts/1    00:00:00 bash
+   4158 pts/1    00:00:00 su
+   4169 pts/1    00:00:00 bash
+   5155 pts/2    00:00:00 bash
+   5302 ?        00:00:00 kworker/u517:0
+   5553 ?        00:00:01 kworker/u514:1-events_unbound
+   5850 ?        00:00:00 kworker/3:0H-kblockd
+   5949 ?        00:00:00 kworker/u513:0-events_unbound
+   6059 ?        00:00:00 kworker/u514:2-events_unbound
+   6235 ?        00:00:00 kworker/2:0H-xfs-log/dm-2
+   6309 pts/2    00:00:00 su
+   6320 pts/2    00:00:00 bash
+   6680 pts/2    00:00:00 su
+   6683 pts/2    00:00:00 bash
+   6714 pts/2    00:00:00 su
+   6717 pts/2    00:00:00 bash
+   6755 ?        00:00:00 kworker/u513:3+events_unbound
+   6770 ?        00:00:00 kworker/3:0-cgroup_destroy
+   6827 ?        00:00:00 kworker/2:1-events
+   6851 ?        00:00:00 kworker/u516:2
+   6922 ?        00:00:00 kworker/3:1-events
+   6925 ?        00:00:00 kworker/1:3-mpt_poll_0
+   6950 pts/2    00:00:00 su
+   6951 pts/2    00:00:00 bash
+   6980 pts/3    00:00:00 bash
+   7015 ?        00:00:00 kworker/0:2-cgroup_destroy
+   7061 ?        00:00:00 kworker/u513:1+events_unbound
+   7123 ?        00:00:00 kworker/0:1-events
+   7130 ?        00:00:00 kworker/2:3
+   7151 ?        00:00:00 kworker/1:0-ata_sff
+   7300 ?        00:00:00 kworker/1:1-ata_sff
+   7301 ?        00:00:00 kworker/0:0-events
+   7302 ?        00:00:00 kworker/2:0-mm_percpu_wq
+   7316 pts/3    00:00:00 ps
+   
+3 [admin@hostname01 ~]$ sleep 100 &
+[1] 7321
+[admin@hostname01 ~]$ jobs
+[1]+  Running                 sleep 100 &
+
+5 [admin@hostname01 ~]$ fg
+bash: fg: job has terminated
+[1]-  Done                    sleep 100
+[2]+  Exit 127                long_running_command
+
+6 [admin@hostname01 ~]$ sleep 100 &
+[1] 7350
+[admin@hostname01 ~]$ sleep 200 &
+[2] 7355
+[admin@hostname01 ~]$ sleep 300 &
+[3] 7361
+[admin@hostname01 ~]$ fg %1
+sleep 100
+^Z
+[1]+  Stopped                 sleep 100
+
+7 ctrl + z
+
+8 [admin@hostname01 ~]$ bg
+[1]+ sleep 100 &
+
+9 [admin@hostname01 ~]$ sleep 200
+
+10 [admin@hostname01 ~]$ kill %7350
+
+11 [admin@hostname01 ~]$ kill -9 7361
+[2]   Done                    sleep 200
+[3]-  Killed                  sleep 300
+[admin@hostname01 ~]$ kill -9 $$
+
+12 [admin@hostname01 ~]$ nice -n -10 ls
+
+13 [admin@hostname01 ~]$ crontab -e **** date
+[admin@hostname01 ~]$ 0****date
+
+
